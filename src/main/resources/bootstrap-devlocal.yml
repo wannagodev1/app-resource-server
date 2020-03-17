@@ -8,6 +8,11 @@ spring:
   data:
     mongodb:
       uri: mongodb://app-resource:wannago@db-mongodb-primary:27017,db-mongodb-secondary:27018/app-resource
+  security:
+    user:
+      name: user
+      password: none
+      roles: MONITORING
 
 security:
   oauth2:
@@ -21,14 +26,33 @@ security:
       userInfoUri: http://localhost:5000/uaa/securityUser/current
       tokenInfoUri: http://localhost:5000/uaa/oauth/check_token
 
+management:
+  server:
+    port: 9105
+    ssl.enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+  info:
+    git:
+      mode: full
+
 eureka:
   client:
     enabled: false
 
 javamelody:
-  enabled: false
+  enabled: true
+  management-endpoint-monitoring-enabled: true
 
 logging:
-  file: logs/app-resource-server.log
+  file:
+    name: logs/app-resource-server.log
 
 info.tags.environment: development
